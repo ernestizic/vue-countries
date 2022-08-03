@@ -22,13 +22,16 @@ const getters = {
 const actions = {
     // Fetch countries
     async fetchCountries({commit}) {
-        commit('setIsLoading', true)
-        const res = await fetch('https://restcountries.com/v3.1/all')
-        const data = await res.json()
-        console.log(data)
-        commit('setIsLoading', false)
-        commit('setCountries', data)
-        // commit('setCountriesClone', countries)
+        try {
+            commit('setIsLoading', true)
+            const res = await fetch('https://restcountries.com/v3.1/all')
+            const data = await res.json()
+            console.log(data)
+            commit('setIsLoading', false)
+            commit('setCountries', data)
+        } catch (err) {
+            console.log(err)
+        }
     },
     // Fetch one country
     async fetchSingleCountry({commit}, code) {
@@ -44,9 +47,17 @@ const actions = {
     // Search country
     countrySearch: async({commit}, query) => {
         console.log(query)
-        const res = await fetch(`https://restcountries.com/v3.1/name/${query}`)
-        const data = await res.json()
-        commit('setCountries', data)
+        try {
+            if (!query) {
+                commit('setCountries', state.countries)
+            } else {
+                const res = await fetch(`https://restcountries.com/v3.1/name/${query}`)
+                const data = await res.json()
+                commit('setCountries', data)
+            }
+        } catch (err) {
+            console.log(data.message)
+        }
     },
 };
 

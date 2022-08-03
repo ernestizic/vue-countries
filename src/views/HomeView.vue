@@ -7,7 +7,7 @@ import { mapGetters, mapActions, mapState } from 'vuex'
     name: 'HomeView',
     data() {
       return {
-        // keyword: '',
+        keyword: '',
         selected: ''
       }
     },
@@ -16,12 +16,14 @@ import { mapGetters, mapActions, mapState } from 'vuex'
       CountryList,
     },
     computed: {
-      // countries () {
-      //   const data = [...this.allCountries].filter(country => country.name.common.toLowerCase().includes(this.keyword.toLowerCase()))
-      //   return data
-      // },
+      countries () {
+        const data = [...this.regionFilter].filter(country => country.name.common.toLowerCase().includes(this.keyword.toLowerCase()))
+        return data
+      },
       regionFilter () {
         if (!this.selected) {
+          return this.allCountries
+        } else if (this.selected === 'All Regions') {
           return this.allCountries
         } else {
           const data = [...this.allCountries].filter(country => country.region === this.selected)
@@ -43,18 +45,19 @@ import { mapGetters, mapActions, mapState } from 'vuex'
 <template>
   <div class="body-of-home-view">
     <section>
-      <Search />
-      <!-- <form  @submit.prevent='onSubmit'>
+      <!-- <Search /> -->
+      <form  @submit.prevent='onSubmit'>
         <i class="fas fa-search"></i>
         <input 
             type="search" 
             placeholder="Search for a country..." 
             v-model="keyword"
         />
-      </form> -->
+      </form>
       
       <select v-model="selected">
         <option disabled value="">Filter by Region</option>
+        <option>All Regions</option>
         <option>Africa</option>
         <option>Americas</option>
         <option>Asia</option>
@@ -64,7 +67,7 @@ import { mapGetters, mapActions, mapState } from 'vuex'
     </section>
     <main>
       <!-- allCountries is the name given so we can call it in the CountryList component -->
-      <CountryList :allCountries="regionFilter" :loadingState="loadingState" />
+      <CountryList :allCountries="countries" :loadingState="loadingState" />
     </main>
   </div>
 </template>
@@ -81,7 +84,7 @@ import { mapGetters, mapActions, mapState } from 'vuex'
   }
 /* form */
     form {
-        width: 50%;
+      width: 50%;
     }
     .fas {
         position: absolute;
@@ -118,14 +121,15 @@ import { mapGetters, mapActions, mapState } from 'vuex'
       justify-content: space-between;
       gap: 20px;
     }
-
-
-            form {
-            width: 100%;
-        }
-        input {
-            width: 100%;
-        }
+    select {
+      width: 50%;
+    }
+    form {
+      width: 100%;
+    }
+    input {
+      width: 100%;
+    }
   }
 </style>
 

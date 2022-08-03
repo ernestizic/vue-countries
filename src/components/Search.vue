@@ -9,34 +9,27 @@ import { mapActions } from 'vuex';
             }
         },
         methods: {
-            // async onSubmit(e) {
-            //     const query = this.keywords
-            //     // await this.$router.push(`/search/${searchKeys}`)
-            //     // console.log(this.$route.path)
-            //     // let {keyword} = this.$route.params
-            //     // console.log(query)
-            //     // e.target.reset();
-            //     this.$emit('search-for-country', query)
-            // }
             ...mapActions(['countrySearch']),
-            onSubmit() {
-                let query = this.keywords
-                console.log(query)
-                this.countrySearch(query)
-                // this.$emit('search-for-country', query)
-                // this.$store.dispatch('countrySearch', {})
-            }
+            // onSubmit() {
+            //     let query = this.keywords
+            //     console.log(query)
+            //     this.countrySearch(query)
+            //     // this.$emit('search-for-country', query)
+            //     // this.$store.dispatch('countrySearch', {})
+            // }
         },
     }
 </script>
 
 <template>
+<!-- The form is submit is not needed. I just left it -->
     <form  @submit.prevent='onSubmit'>
         <i class="fas fa-search"></i>
         <input 
             type="search" 
             placeholder="Search for a country..." 
             v-model="keywords"
+            @input="countrySearch(this.keywords)"
         />
     </form>
 </template>

@@ -1,34 +1,20 @@
 <script>
-// import Search from '../components/Search.vue'
-// import { mapGetters, mapActions } from 'vuex'
+import Loader from './Loader.vue'
 
 export default {
     name: 'CountryList',
-    components: {
-        // Search,
-    },
     props: {
         allCountries: Array,
         loadingState: Boolean,
     },
-    // methods: {
-    //     ...mapActions(['fetchCountries']),
-    // },
-    // computed: {
-    //     ...mapGetters(['allCountries']),
-    // },
-    // mounted() {
-    //     this.fetchCountries();
-    // },
+    components: {
+        Loader,
+    },
 }
 </script>
 
 
 <template>
-    <!-- <section>
-      <Search />
-      <input />
-    </section> -->
     <div class="row">
         <div v-for='country in allCountries' v-bind:key="country.cca2">
             <router-link :to="{name: 'country', params: {id: country.cca2}}">
@@ -38,33 +24,24 @@ export default {
                         <h3>{{country.name.common}}</h3>
                         <p><span class="title">Population:</span> {{country.population}} </p>
                         <p><span class="title">Region:</span> {{country.region}} </p>
-                        <!-- <p><span class="title">Capital:</span> {{country.capital[0]}} </p> -->
+                        <p><span class="title">Sub Region:</span> {{country.subregion}} </p>
+                        <!-- <p><span class="title">Capital:</span> {{country.capital}} </p> -->
                     </div>
                 </div>
             </router-link>
         </div>
     </div>
 
-    <div v-if='loadingState' class="loading">
-        <p>Loading...</p>
+    <div v-if='loadingState'>
+        <Loader />
     </div>
 </template>
 
 <style scoped>
-  /* section{
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 30px;
-  } */
 
     a {
         text-decoration: none;
         color: hsl(200, 15%, 8%);
-    }
-    .loading{
-        position: fixed;
-        top: 50%;
-        left: 50%;
     }
     .row{
         display: grid;
@@ -95,15 +72,5 @@ export default {
         .row{
             grid-template-columns: repeat(1, 1fr);
         }
-        .loading{
-            position: fixed;
-            top: 50%;
-            left: 40%;
-        }
-        /* section{
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 20px;
-        } */
     }
 </style>

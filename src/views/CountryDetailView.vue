@@ -1,9 +1,10 @@
 <script>
+import Loader from '../components/Loader.vue'
 import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
     name: 'CountryDetailView',
-    props: {
-        // countries: Array
+    components: {
+        Loader,
     },
     computed: {
         ...mapState(['countries']),
@@ -11,6 +12,7 @@ export default {
         details() {
             return this.countryDetail && this.countryDetail[0]
         }
+        // I can use this if i want to perform the computed inside this component instead of using a getter
         // countryDetail(){
         //     let country_id = this.$route.params.id
         //     let detail = this.countries.countries && this.countries.countries.find((count)=> count.cca2 === country_id)
@@ -36,8 +38,8 @@ export default {
     <div class="country-detail-page">
         <button v-on:click="$router.back()"><i class="fa-solid fa-arrow-left-long"></i> Back</button>
 
-        <div v-if='loadingState' class="loading">
-            <p>Loading...</p>
+        <div v-if='loadingState'>
+            <Loader />
         </div>
 
         <div v-if='details' class="detail-flex">
@@ -79,11 +81,6 @@ export default {
 </template>
 
 <style scoped>
-    .loading{
-        position: fixed;
-        top: 50%;
-        left: 50%;
-    }
     .country-detail-page {
         padding: 30px 50px;
         font-size: 14px;
